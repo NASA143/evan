@@ -3,10 +3,12 @@ from PyQt6 import uic
 from PyQt6.QtWidgets import QApplication, QMainWindow, QPushButton
 import sqlite3
 
+
+
 SESSION = {
     'status': False,
     'user_name': '',
-    'chats_with:': '',
+    'chats_with': '',
 }
 
 connection = sqlite3.connect('db/main_database.db')
@@ -16,11 +18,16 @@ class Chats(QMainWindow):
     def __init__(self):
         super().__init__()
         uic.loadUi('uic/chats.ui', self)
+        self.chats = []
+        for i in SESSION['chats_with']:
+            cursor.execute(f"SELECT name FROM users WHERE id = '{i}'")
+            self.list_chats.addItem(cursor.fetchall()[0][0])
 
 
 
 class Login(QMainWindow):
     def __init__(self):
+        global SESSION
         super().__init__()
         uic.loadUi('uic/login.ui', self)
 
@@ -33,15 +40,13 @@ class Login(QMainWindow):
 
         if res:
             if res[0][2] == self.user_password_log.text():
+                global SESSION
+                SESSION['status'] = True
+                SESSION['user_name'] = res[0][1]
+                SESSION['chats_with'] = eval(res[0][3])
                 self.chats_window = Chats()
                 self.chats_window.show()
                 self.hide()
-
-                SESSION['status'] = True
-                SESSION['user_name'] = self.user_login_log.text()
-                cursor.execute(f"SELECT chats_with FROM users WHERE name = '{self.user_login_log.text()}'")
-                SESSION['chats_with'] = cursor.fetchall()
-                print(cursor.fetchall())
             else:
                 print('Не верный пароль')
         else:
