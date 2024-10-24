@@ -3,13 +3,21 @@ from PyQt6 import uic
 from PyQt6.QtWidgets import QApplication, QMainWindow, QPushButton
 import sqlite3
 
+SESSION = {
+    'status': False,
+    'user_name': '',
+    'chats_with:': '',
+}
+
 connection = sqlite3.connect('db/main_database.db')
 cursor = connection.cursor()
 
-class Muni(QMainWindow):
+class Chats(QMainWindow):
     def __init__(self):
         super().__init__()
-        uic.loadUi('uic/main.ui', self)
+        uic.loadUi('uic/chats.ui', self)
+
+
 
 class Login(QMainWindow):
     def __init__(self):
@@ -25,8 +33,15 @@ class Login(QMainWindow):
 
         if res:
             if res[0][2] == self.user_password_log.text():
-                self.wind = Muni()
-                self.wind.show()
+                self.chats_window = Chats()
+                self.chats_window.show()
+                self.hide()
+
+                SESSION['status'] = True
+                SESSION['user_name'] = self.user_login_log.text()
+                cursor.execute(f"SELECT chats_with FROM users WHERE name = '{self.user_login_log.text()}'")
+                SESSION['chats_with'] = cursor.fetchall()
+                print(cursor.fetchall())
             else:
                 print('Не верный пароль')
         else:

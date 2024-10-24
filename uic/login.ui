@@ -6,8 +6,8 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>1287</width>
-    <height>349</height>
+    <width>727</width>
+    <height>345</height>
    </rect>
   </property>
   <property name="font">
@@ -46,7 +46,7 @@
    <widget class="QLabel" name="label_reg">
     <property name="geometry">
      <rect>
-      <x>950</x>
+      <x>410</x>
       <y>50</y>
       <width>271</width>
       <height>41</height>
@@ -105,7 +105,7 @@ color: #000;</string>
    <widget class="QLineEdit" name="user_passwordrep_reg">
     <property name="geometry">
      <rect>
-      <x>950</x>
+      <x>410</x>
       <y>190</y>
       <width>261</width>
       <height>31</height>
@@ -123,7 +123,7 @@ border-radius: 10px;</string>
    <widget class="QLineEdit" name="user_password_reg">
     <property name="geometry">
      <rect>
-      <x>950</x>
+      <x>410</x>
       <y>150</y>
       <width>261</width>
       <height>31</height>
@@ -141,7 +141,7 @@ border-radius: 10px;</string>
    <widget class="QLineEdit" name="user_login_reg">
     <property name="geometry">
      <rect>
-      <x>950</x>
+      <x>410</x>
       <y>110</y>
       <width>261</width>
       <height>31</height>
@@ -159,7 +159,7 @@ border-radius: 10px;</string>
    <widget class="QPushButton" name="btn_reg">
     <property name="geometry">
      <rect>
-      <x>1000</x>
+      <x>460</x>
       <y>240</y>
       <width>211</width>
       <height>41</height>
