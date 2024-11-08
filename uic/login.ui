@@ -6,14 +6,9 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>727</width>
-    <height>345</height>
+    <width>1256</width>
+    <height>828</height>
    </rect>
-  </property>
-  <property name="font">
-   <font>
-    <pointsize>14</pointsize>
-   </font>
   </property>
   <property name="windowTitle">
    <string>MainWindow</string>
@@ -22,192 +17,488 @@
    <string notr="true">background-color: #2A72EE</string>
   </property>
   <widget class="QWidget" name="centralwidget">
-   <widget class="QLabel" name="label_log">
+   <widget class="QWidget" name="horizontalLayoutWidget">
     <property name="geometry">
      <rect>
-      <x>80</x>
-      <y>50</y>
-      <width>101</width>
-      <height>41</height>
+      <x>0</x>
+      <y>0</y>
+      <width>1251</width>
+      <height>821</height>
      </rect>
     </property>
-    <property name="font">
-     <font>
-      <pointsize>30</pointsize>
-     </font>
-    </property>
-    <property name="styleSheet">
-     <string notr="true">background:none;</string>
-    </property>
-    <property name="text">
-     <string>Вход</string>
-    </property>
-   </widget>
-   <widget class="QLabel" name="label_reg">
-    <property name="geometry">
-     <rect>
-      <x>410</x>
-      <y>50</y>
-      <width>271</width>
-      <height>41</height>
-     </rect>
-    </property>
-    <property name="font">
-     <font>
-      <pointsize>30</pointsize>
-     </font>
-    </property>
-    <property name="styleSheet">
-     <string notr="true">background:none;</string>
-    </property>
-    <property name="text">
-     <string>Регистрация</string>
-    </property>
-   </widget>
-   <widget class="QLineEdit" name="user_login_log">
-    <property name="geometry">
-     <rect>
-      <x>80</x>
-      <y>110</y>
-      <width>251</width>
-      <height>31</height>
-     </rect>
-    </property>
-    <property name="styleSheet">
-     <string notr="true">background-color:white;
-border: 1px solid white;
-border-radius: 10px;
+    <layout class="QHBoxLayout" name="horizontalLayout">
+     <item>
+      <widget class="QGroupBox" name="groupBox">
+       <property name="enabled">
+        <bool>true</bool>
+       </property>
+       <property name="title">
+        <string/>
+       </property>
+       <widget class="QLabel" name="label_title">
+        <property name="geometry">
+         <rect>
+          <x>50</x>
+          <y>100</y>
+          <width>341</width>
+          <height>59</height>
+         </rect>
+        </property>
+        <property name="styleSheet">
+         <string notr="true">font-family: Inter;
+font-size: 48px;
+color: #fff</string>
+        </property>
+        <property name="text">
+         <string>Вход</string>
+        </property>
+       </widget>
+       <widget class="QGroupBox" name="groupBox_2">
+        <property name="geometry">
+         <rect>
+          <x>640</x>
+          <y>-10</y>
+          <width>621</width>
+          <height>819</height>
+         </rect>
+        </property>
+        <property name="title">
+         <string/>
+        </property>
+       </widget>
+       <widget class="QGroupBox" name="reg_box">
+        <property name="geometry">
+         <rect>
+          <x>30</x>
+          <y>200</y>
+          <width>561</width>
+          <height>341</height>
+         </rect>
+        </property>
+        <property name="styleSheet">
+         <string notr="true">background-color: #fff;
+border:none;</string>
+        </property>
+        <property name="title">
+         <string/>
+        </property>
+        <widget class="QWidget" name="verticalLayoutWidget">
+         <property name="geometry">
+          <rect>
+           <x>20</x>
+           <y>50</y>
+           <width>261</width>
+           <height>211</height>
+          </rect>
+         </property>
+         <layout class="QVBoxLayout" name="verticalLayout">
+          <item>
+           <widget class="QGroupBox" name="groupBox_4">
+            <property name="styleSheet">
+             <string notr="true">border:none;</string>
+            </property>
+            <property name="title">
+             <string/>
+            </property>
+            <widget class="QLabel" name="label_2">
+             <property name="geometry">
+              <rect>
+               <x>0</x>
+               <y>0</y>
+               <width>48</width>
+               <height>20</height>
+              </rect>
+             </property>
+             <property name="font">
+              <font>
+               <family>Inter</family>
+               <pointsize>12</pointsize>
+              </font>
+             </property>
+             <property name="styleSheet">
+              <string notr="true">color: #000</string>
+             </property>
+             <property name="text">
+              <string>Логин</string>
+             </property>
+            </widget>
+            <widget class="QLineEdit" name="user_login_reg">
+             <property name="geometry">
+              <rect>
+               <x>0</x>
+               <y>20</y>
+               <width>250</width>
+               <height>35</height>
+              </rect>
+             </property>
+             <property name="styleSheet">
+              <string notr="true">background-color:white;
+border: 2px solid #466BFF;
+border-radius: 0px;
 color: #000;</string>
-    </property>
-    <property name="text">
-     <string/>
-    </property>
-   </widget>
-   <widget class="QLineEdit" name="user_password_log">
-    <property name="geometry">
-     <rect>
-      <x>80</x>
-      <y>150</y>
-      <width>251</width>
-      <height>31</height>
-     </rect>
-    </property>
-    <property name="styleSheet">
-     <string notr="true">background-color:white;
-border: 1px solid white;
-border-radius: 10px;
+             </property>
+             <property name="text">
+              <string/>
+             </property>
+            </widget>
+           </widget>
+          </item>
+          <item>
+           <widget class="QGroupBox" name="groupBox_8">
+            <property name="styleSheet">
+             <string notr="true">border:none;</string>
+            </property>
+            <property name="title">
+             <string/>
+            </property>
+            <widget class="QLabel" name="label_5">
+             <property name="geometry">
+              <rect>
+               <x>0</x>
+               <y>0</y>
+               <width>59</width>
+               <height>20</height>
+              </rect>
+             </property>
+             <property name="font">
+              <font>
+               <family>Inter</family>
+               <pointsize>12</pointsize>
+              </font>
+             </property>
+             <property name="styleSheet">
+              <string notr="true">color: #000</string>
+             </property>
+             <property name="text">
+              <string>Пароль</string>
+             </property>
+            </widget>
+            <widget class="QLineEdit" name="user_password_reg">
+             <property name="geometry">
+              <rect>
+               <x>0</x>
+               <y>20</y>
+               <width>250</width>
+               <height>35</height>
+              </rect>
+             </property>
+             <property name="styleSheet">
+              <string notr="true">background-color:white;
+border: 2px solid #466BFF;
+border-radius: 0px;
 color: #000;</string>
-    </property>
-    <property name="text">
-     <string/>
-    </property>
-   </widget>
-   <widget class="QLineEdit" name="user_passwordrep_reg">
-    <property name="geometry">
-     <rect>
-      <x>410</x>
-      <y>190</y>
-      <width>261</width>
-      <height>31</height>
-     </rect>
-    </property>
-    <property name="styleSheet">
-     <string notr="true">background-color:white;
-border: 1px solid white;
-border-radius: 10px;</string>
-    </property>
-    <property name="text">
-     <string/>
-    </property>
-   </widget>
-   <widget class="QLineEdit" name="user_password_reg">
-    <property name="geometry">
-     <rect>
-      <x>410</x>
-      <y>150</y>
-      <width>261</width>
-      <height>31</height>
-     </rect>
-    </property>
-    <property name="styleSheet">
-     <string notr="true">background-color:white;
-border: 1px solid white;
-border-radius: 10px;</string>
-    </property>
-    <property name="text">
-     <string/>
-    </property>
-   </widget>
-   <widget class="QLineEdit" name="user_login_reg">
-    <property name="geometry">
-     <rect>
-      <x>410</x>
-      <y>110</y>
-      <width>261</width>
-      <height>31</height>
-     </rect>
-    </property>
-    <property name="styleSheet">
-     <string notr="true">background-color:white;
-border: 1px solid white;
-border-radius: 10px;</string>
-    </property>
-    <property name="text">
-     <string/>
-    </property>
-   </widget>
-   <widget class="QPushButton" name="btn_reg">
-    <property name="geometry">
-     <rect>
-      <x>460</x>
-      <y>240</y>
-      <width>211</width>
-      <height>41</height>
-     </rect>
-    </property>
-    <property name="font">
-     <font>
-      <pointsize>14</pointsize>
-     </font>
-    </property>
-    <property name="styleSheet">
-     <string notr="true">background-color: #fff;
-color: #2A72EE;
-border-radius:10px;
+             </property>
+             <property name="text">
+              <string/>
+             </property>
+            </widget>
+           </widget>
+          </item>
+          <item>
+           <widget class="QGroupBox" name="groupBox_5">
+            <property name="styleSheet">
+             <string notr="true">border:none;</string>
+            </property>
+            <property name="title">
+             <string/>
+            </property>
+            <widget class="QLabel" name="label">
+             <property name="geometry">
+              <rect>
+               <x>0</x>
+               <y>0</y>
+               <width>144</width>
+               <height>20</height>
+              </rect>
+             </property>
+             <property name="font">
+              <font>
+               <family>Inter</family>
+               <pointsize>12</pointsize>
+              </font>
+             </property>
+             <property name="styleSheet">
+              <string notr="true">color: #000</string>
+             </property>
+             <property name="text">
+              <string>Повторите пароль</string>
+             </property>
+            </widget>
+            <widget class="QLineEdit" name="user_passwordrep_reg">
+             <property name="geometry">
+              <rect>
+               <x>0</x>
+               <y>20</y>
+               <width>250</width>
+               <height>35</height>
+              </rect>
+             </property>
+             <property name="styleSheet">
+              <string notr="true">background-color:white;
+border: 2px solid #466BFF;
+border-radius: 0px;
+color: #000;</string>
+             </property>
+             <property name="text">
+              <string/>
+             </property>
+            </widget>
+           </widget>
+          </item>
+         </layout>
+        </widget>
+        <widget class="QPushButton" name="btn_reg">
+         <property name="geometry">
+          <rect>
+           <x>310</x>
+           <y>280</y>
+           <width>221</width>
+           <height>41</height>
+          </rect>
+         </property>
+         <property name="font">
+          <font>
+           <pointsize>14</pointsize>
+          </font>
+         </property>
+         <property name="cursor">
+          <cursorShape>PointingHandCursor</cursorShape>
+         </property>
+         <property name="styleSheet">
+          <string notr="true">color: #fff;
+background-color: #2A72EE;
+border-radius:0px;
 padding: 7px 14px;
 </string>
-    </property>
-    <property name="text">
-     <string>Зарегистрироваться</string>
-    </property>
-   </widget>
-   <widget class="QPushButton" name="btn_log">
-    <property name="geometry">
-     <rect>
-      <x>200</x>
-      <y>200</y>
-      <width>131</width>
-      <height>41</height>
-     </rect>
-    </property>
-    <property name="font">
-     <font>
-      <pointsize>14</pointsize>
-     </font>
-    </property>
-    <property name="styleSheet">
-     <string notr="true">background-color: #fff;
-color: #2A72EE;
-border-radius:10px;
+         </property>
+         <property name="text">
+          <string>Зарегистрироваться</string>
+         </property>
+        </widget>
+        <widget class="QPushButton" name="reg_swap_btn">
+         <property name="geometry">
+          <rect>
+           <x>400</x>
+           <y>10</y>
+           <width>151</width>
+           <height>31</height>
+          </rect>
+         </property>
+         <property name="font">
+          <font>
+           <pointsize>14</pointsize>
+          </font>
+         </property>
+         <property name="cursor">
+          <cursorShape>PointingHandCursor</cursorShape>
+         </property>
+         <property name="styleSheet">
+          <string notr="true">border: none;
+background: none;
+color: #466BFF;</string>
+         </property>
+         <property name="text">
+          <string>Вход🠒</string>
+         </property>
+        </widget>
+       </widget>
+       <widget class="QGroupBox" name="login_box">
+        <property name="enabled">
+         <bool>true</bool>
+        </property>
+        <property name="geometry">
+         <rect>
+          <x>30</x>
+          <y>200</y>
+          <width>561</width>
+          <height>341</height>
+         </rect>
+        </property>
+        <property name="styleSheet">
+         <string notr="true">background-color: #fff;
+border:none;</string>
+        </property>
+        <property name="title">
+         <string/>
+        </property>
+        <widget class="QWidget" name="verticalLayoutWidget_2">
+         <property name="geometry">
+          <rect>
+           <x>20</x>
+           <y>50</y>
+           <width>261</width>
+           <height>141</height>
+          </rect>
+         </property>
+         <layout class="QVBoxLayout" name="verticalLayout_2">
+          <item>
+           <widget class="QGroupBox" name="groupBox_6">
+            <property name="styleSheet">
+             <string notr="true">border:none;</string>
+            </property>
+            <property name="title">
+             <string/>
+            </property>
+            <widget class="QLabel" name="label_3">
+             <property name="geometry">
+              <rect>
+               <x>0</x>
+               <y>0</y>
+               <width>59</width>
+               <height>20</height>
+              </rect>
+             </property>
+             <property name="font">
+              <font>
+               <family>Inter</family>
+               <pointsize>12</pointsize>
+              </font>
+             </property>
+             <property name="styleSheet">
+              <string notr="true">color: #000</string>
+             </property>
+             <property name="text">
+              <string>Логин</string>
+             </property>
+            </widget>
+            <widget class="QLineEdit" name="user_login_log">
+             <property name="geometry">
+              <rect>
+               <x>0</x>
+               <y>20</y>
+               <width>250</width>
+               <height>35</height>
+              </rect>
+             </property>
+             <property name="styleSheet">
+              <string notr="true">background-color:white;
+border: 2px solid #466BFF;
+border-radius: 0px;
+color: #000;</string>
+             </property>
+             <property name="text">
+              <string/>
+             </property>
+            </widget>
+           </widget>
+          </item>
+          <item>
+           <widget class="QGroupBox" name="groupBox_7">
+            <property name="styleSheet">
+             <string notr="true">border:none;</string>
+            </property>
+            <property name="title">
+             <string/>
+            </property>
+            <widget class="QLabel" name="label_4">
+             <property name="geometry">
+              <rect>
+               <x>0</x>
+               <y>0</y>
+               <width>59</width>
+               <height>20</height>
+              </rect>
+             </property>
+             <property name="font">
+              <font>
+               <family>Inter</family>
+               <pointsize>12</pointsize>
+              </font>
+             </property>
+             <property name="styleSheet">
+              <string notr="true">color: #000</string>
+             </property>
+             <property name="text">
+              <string>Пароль</string>
+             </property>
+            </widget>
+            <widget class="QLineEdit" name="user_password_log">
+             <property name="geometry">
+              <rect>
+               <x>0</x>
+               <y>20</y>
+               <width>250</width>
+               <height>35</height>
+              </rect>
+             </property>
+             <property name="styleSheet">
+              <string notr="true">background-color:white;
+border: 2px solid #466BFF;
+border-radius: 0px;
+color: #000;</string>
+             </property>
+             <property name="text">
+              <string/>
+             </property>
+            </widget>
+           </widget>
+          </item>
+         </layout>
+        </widget>
+        <widget class="QPushButton" name="btn_log">
+         <property name="geometry">
+          <rect>
+           <x>400</x>
+           <y>280</y>
+           <width>131</width>
+           <height>41</height>
+          </rect>
+         </property>
+         <property name="font">
+          <font>
+           <pointsize>14</pointsize>
+          </font>
+         </property>
+         <property name="cursor">
+          <cursorShape>PointingHandCursor</cursorShape>
+         </property>
+         <property name="styleSheet">
+          <string notr="true">color: #fff;
+background-color: #2A72EE;
+border-radius:0px;
 padding: 7px 14px;
 </string>
-    </property>
-    <property name="text">
-     <string>Вход</string>
-    </property>
+         </property>
+         <property name="text">
+          <string>Войти</string>
+         </property>
+        </widget>
+        <widget class="QPushButton" name="reg_swap_btn_2">
+         <property name="geometry">
+          <rect>
+           <x>400</x>
+           <y>10</y>
+           <width>151</width>
+           <height>31</height>
+          </rect>
+         </property>
+         <property name="font">
+          <font>
+           <pointsize>14</pointsize>
+          </font>
+         </property>
+         <property name="cursor">
+          <cursorShape>PointingHandCursor</cursorShape>
+         </property>
+         <property name="styleSheet">
+          <string notr="true">border: none;
+background: none;
+color: #466BFF;</string>
+         </property>
+         <property name="text">
+          <string>Регистрация🠒</string>
+         </property>
+        </widget>
+       </widget>
+       <zorder>reg_box</zorder>
+       <zorder>label_title</zorder>
+       <zorder>groupBox_2</zorder>
+       <zorder>login_box</zorder>
+      </widget>
+     </item>
+    </layout>
    </widget>
   </widget>
-  <widget class="QStatusBar" name="statusbar"/>
  </widget>
  <resources/>
  <connections/>

@@ -1,6 +1,6 @@
 import sys
 from PyQt6 import uic, QtCore, QtWidgets, QtGui
-from PyQt6.QtWidgets import QApplication, QMainWindow, QPushButton
+from PyQt6.QtWidgets import QApplication, QMainWindow, QPushButton, QLabel
 import sqlite3
 import datetime
 
@@ -22,9 +22,12 @@ class Chats(QMainWindow):
     def __init__(self):
         super().__init__()
         uic.loadUi('uic/chats.ui', self)
+        self.chats_buttons_print()
 
         self.send_msg_btn.clicked.connect(self.send_msg)
 
+
+    def chats_buttons_print(self):
         # Массив с кортежами формата (все данные чата, экземпляр кнопки чата)
         self.chats_buttons = []
 
@@ -45,28 +48,37 @@ class Chats(QMainWindow):
             data_of_btn_user['message_to_me'] = cursor.fetchall()
 
             data_of_btn_user['message_all'] = [*data_of_btn_user['message_to_me'], *data_of_btn_user['message_from_me']]
-            print(data_of_btn_user['message_all'])
 
             # Добавляем всё
             self.chats_buttons.append((data_of_btn_user, QtWidgets.QPushButton(f'{data_of_btn_user['user_id']}',
-                                                                               parent=self.scrollAreaWidgetContents_2)))
+                                                                               parent=self.scrollAreaWidgetContents)))
 
             # Параметры кнопок
             # Позиция и размер
-            self.chats_buttons[-1][1].setGeometry(QtCore.QRect(10, self.pos_btn_y, 300, 30))
+            self.verticalLayout.addWidget(self.chats_buttons[-1][1])
             # События кнопок
             self.chats_buttons[-1][1].clicked.connect(self.chat_btn_click)
             # расстояние между кнопками
             self.pos_btn_y += 40
 
+        print(*self.chats_buttons)
 
     # Событие смены окна чата
     def chat_btn_click(self):
+        self.verticalLayout_2.removeWidget(self)
+        self.chat_message = []
         for i in self.chats_buttons:
             if self.sender() in i:
                 SESSION['active_chat'] = i[0]['user_id']
                 # Изменение активного чата
-                print(SESSION['active_chat'])
+                for j in i[0]['message_all']:
+                    print(j)
+                    self.chat_message.append(QLabel(f'{j[3]}',parent=self.chat_area_contents))
+                    self.verticalLayout_2.addWidget(self.chat_message[-1])
+
+
+
+
 
 
     # Функция отправки сообщения
@@ -82,12 +94,26 @@ class Login(QMainWindow):
         super().__init__()
         uic.loadUi('uic/login.ui', self)
 
+        self.show_autowindow_status = False
         # События кнопок
         # Событие логина
         self.btn_log.clicked.connect(self.login)
         # Событие регистрации
         self.btn_reg.clicked.connect(self.register)
 
+        self.reg_swap_btn.clicked.connect(self.show_autowindow)
+        self.reg_swap_btn_2.clicked.connect(self.show_autowindow)
+
+    def show_autowindow(self):
+
+        if self.show_autowindow_status:
+            self.login_box.show()
+            self.show_autowindow_status = not self.show_autowindow_status
+            self.label_title.setText('Вход')
+        else:
+            self.label_title.setText('Регистрация')
+            self.login_box.hide()
+            self.show_autowindow_status = not self.show_autowindow_status
     # Функция изменения данных сессии
     def get_session(self):
         cursor.execute(f"SELECT * FROM users WHERE name = '{self.user_login_log.text()}'")

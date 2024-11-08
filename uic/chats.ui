@@ -6,9 +6,15 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>1448</width>
-    <height>850</height>
+    <width>1247</width>
+    <height>710</height>
    </rect>
+  </property>
+  <property name="sizePolicy">
+   <sizepolicy hsizetype="Expanding" vsizetype="Fixed">
+    <horstretch>0</horstretch>
+    <verstretch>0</verstretch>
+   </sizepolicy>
   </property>
   <property name="windowTitle">
    <string>MainWindow</string>
@@ -22,20 +28,21 @@
     <property name="geometry">
      <rect>
       <x>0</x>
-      <y>760</y>
-      <width>400</width>
+      <y>620</y>
+      <width>401</width>
       <height>91</height>
      </rect>
     </property>
     <property name="font">
      <font>
       <family>Monospace</family>
-      <pointsize>64</pointsize>
+      <pointsize>50</pointsize>
      </font>
     </property>
     <property name="styleSheet">
      <string notr="true">color: #fff;
-background-color: #466BFF;</string>
+background-color: #466BFF;
+padding: 10px;</string>
     </property>
     <property name="text">
      <string>JustChat</string>
@@ -47,7 +54,7 @@ background-color: #466BFF;</string>
       <x>0</x>
       <y>0</y>
       <width>401</width>
-      <height>101</height>
+      <height>81</height>
      </rect>
     </property>
     <property name="styleSheet">
@@ -62,10 +69,10 @@ background-color: #466BFF;</string>
     <widget class="QPushButton" name="pushButton">
      <property name="geometry">
       <rect>
-       <x>10</x>
+       <x>20</x>
        <y>20</y>
-       <width>51</width>
-       <height>51</height>
+       <width>41</width>
+       <height>41</height>
       </rect>
      </property>
      <property name="text">
@@ -81,7 +88,7 @@ background-color: #466BFF;</string>
        <x>70</x>
        <y>20</y>
        <width>311</width>
-       <height>51</height>
+       <height>41</height>
       </rect>
      </property>
      <property name="styleSheet">
@@ -89,29 +96,13 @@ background-color: #466BFF;</string>
      </property>
     </widget>
    </widget>
-   <widget class="QLineEdit" name="send_msg_input">
-    <property name="geometry">
-     <rect>
-      <x>410</x>
-      <y>790</y>
-      <width>971</width>
-      <height>41</height>
-     </rect>
-    </property>
-    <property name="styleSheet">
-     <string notr="true">color:black;</string>
-    </property>
-    <property name="text">
-     <string/>
-    </property>
-   </widget>
    <widget class="QPushButton" name="send_msg_btn">
     <property name="geometry">
      <rect>
-      <x>1389</x>
-      <y>790</y>
-      <width>51</width>
-      <height>41</height>
+      <x>1190</x>
+      <y>660</y>
+      <width>40</width>
+      <height>40</height>
      </rect>
     </property>
     <property name="font">
@@ -120,7 +111,9 @@ background-color: #466BFF;</string>
      </font>
     </property>
     <property name="styleSheet">
-     <string notr="true">background-color:#466BFF</string>
+     <string notr="true">background-color:#466BFF;
+border:none;
+border-radius: 20px;</string>
     </property>
     <property name="text">
      <string/>
@@ -129,33 +122,26 @@ background-color: #466BFF;</string>
      <iconset theme="QIcon::ThemeIcon::GoUp"/>
     </property>
    </widget>
-   <widget class="QListWidget" name="chat_window">
-    <property name="geometry">
-     <rect>
-      <x>400</x>
-      <y>0</y>
-      <width>1051</width>
-      <height>761</height>
-     </rect>
-    </property>
-    <property name="minimumSize">
-     <size>
-      <width>0</width>
-      <height>100</height>
-     </size>
-    </property>
-   </widget>
    <widget class="QScrollArea" name="scrollArea">
     <property name="geometry">
      <rect>
       <x>0</x>
-      <y>100</y>
+      <y>80</y>
       <width>401</width>
-      <height>661</height>
+      <height>541</height>
      </rect>
+    </property>
+    <property name="sizePolicy">
+     <sizepolicy hsizetype="Expanding" vsizetype="Fixed">
+      <horstretch>0</horstretch>
+      <verstretch>0</verstretch>
+     </sizepolicy>
     </property>
     <property name="styleSheet">
      <string notr="true">background-color: #466BFF;</string>
+    </property>
+    <property name="verticalScrollBarPolicy">
+     <enum>Qt::ScrollBarPolicy::ScrollBarAlwaysOn</enum>
     </property>
     <property name="widgetResizable">
      <bool>true</bool>
@@ -165,38 +151,115 @@ background-color: #466BFF;</string>
       <rect>
        <x>0</x>
        <y>0</y>
-       <width>399</width>
-       <height>659</height>
+       <width>385</width>
+       <height>539</height>
       </rect>
      </property>
-     <widget class="QScrollArea" name="scrollArea_2">
-      <property name="geometry">
-       <rect>
-        <x>0</x>
-        <y>0</y>
-        <width>391</width>
-        <height>641</height>
-       </rect>
-      </property>
-      <property name="verticalScrollBarPolicy">
-       <enum>Qt::ScrollBarPolicy::ScrollBarAlwaysOn</enum>
-      </property>
-      <property name="widgetResizable">
-       <bool>true</bool>
-      </property>
-      <widget class="QWidget" name="scrollAreaWidgetContents_2">
-       <property name="geometry">
-        <rect>
-         <x>0</x>
-         <y>0</y>
-         <width>375</width>
-         <height>639</height>
-        </rect>
-       </property>
-      </widget>
-     </widget>
+     <layout class="QVBoxLayout" name="verticalLayout"/>
     </widget>
    </widget>
+   <widget class="QScrollArea" name="chat_area">
+    <property name="geometry">
+     <rect>
+      <x>400</x>
+      <y>60</y>
+      <width>841</width>
+      <height>591</height>
+     </rect>
+    </property>
+    <property name="sizePolicy">
+     <sizepolicy hsizetype="Expanding" vsizetype="Fixed">
+      <horstretch>0</horstretch>
+      <verstretch>0</verstretch>
+     </sizepolicy>
+    </property>
+    <property name="styleSheet">
+     <string notr="true">background-color: #466BFF;</string>
+    </property>
+    <property name="verticalScrollBarPolicy">
+     <enum>Qt::ScrollBarPolicy::ScrollBarAlwaysOn</enum>
+    </property>
+    <property name="widgetResizable">
+     <bool>true</bool>
+    </property>
+    <widget class="QWidget" name="chat_area_contents">
+     <property name="geometry">
+      <rect>
+       <x>0</x>
+       <y>0</y>
+       <width>825</width>
+       <height>589</height>
+      </rect>
+     </property>
+     <layout class="QVBoxLayout" name="verticalLayout_2"/>
+    </widget>
+   </widget>
+   <widget class="QLineEdit" name="send_msg_input">
+    <property name="geometry">
+     <rect>
+      <x>400</x>
+      <y>650</y>
+      <width>841</width>
+      <height>60</height>
+     </rect>
+    </property>
+    <property name="styleSheet">
+     <string notr="true">color:black;
+background-color:#E8E8E8;
+border:none;
+</string>
+    </property>
+    <property name="inputMask">
+     <string/>
+    </property>
+    <property name="text">
+     <string/>
+    </property>
+    <property name="placeholderText">
+     <string>  Введите сообщение</string>
+    </property>
+   </widget>
+   <widget class="QGroupBox" name="groupBox">
+    <property name="geometry">
+     <rect>
+      <x>399</x>
+      <y>0</y>
+      <width>841</width>
+      <height>61</height>
+     </rect>
+    </property>
+    <property name="styleSheet">
+     <string notr="true">background-color: #466BFF;</string>
+    </property>
+    <property name="title">
+     <string/>
+    </property>
+    <widget class="QLabel" name="active_chat_name">
+     <property name="geometry">
+      <rect>
+       <x>20</x>
+       <y>10</y>
+       <width>261</width>
+       <height>41</height>
+      </rect>
+     </property>
+     <property name="font">
+      <font>
+       <pointsize>20</pointsize>
+      </font>
+     </property>
+     <property name="text">
+      <string>Имя Пользователя</string>
+     </property>
+    </widget>
+   </widget>
+   <zorder>label</zorder>
+   <zorder>frame</zorder>
+   <zorder>scrollArea</zorder>
+   <zorder>chat_area</zorder>
+   <zorder>send_msg_input</zorder>
+   <zorder>send_msg_btn</zorder>
+   <zorder>groupBox</zorder>
   </widget>
  </widget>
  <resources/>
