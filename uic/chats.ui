@@ -249,7 +249,7 @@ border:none;
       </font>
      </property>
      <property name="text">
-      <string>Имя Пользователя</string>
+      <string/>
      </property>
     </widget>
    </widget>

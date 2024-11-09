@@ -4,7 +4,9 @@ from PyQt6.QtWidgets import QApplication, QMainWindow, QPushButton, QLabel
 import sqlite3
 import datetime
 
-SESSION = {
+from mutagen.flac import delete
+
+session = {
     'status': False,
     'user_id': None,
     'user_name': '',
@@ -17,80 +19,77 @@ SESSION = {
 connection = sqlite3.connect('db/main_database.db')
 cursor = connection.cursor()
 
+
 # Класс окна с чатами
 class Chats(QMainWindow):
     def __init__(self):
         super().__init__()
         uic.loadUi('uic/chats.ui', self)
+
         self.chats_buttons_print()
+        self.chat_message = []
 
         self.send_msg_btn.clicked.connect(self.send_msg)
 
-
     def chats_buttons_print(self):
         # Массив с кортежами формата (все данные чата, экземпляр кнопки чата)
-        self.chats_buttons = []
+        self.chats_data = []
 
         # Добвление данных в массив с кнопками и информацией
         self.pos_btn_y = 10
-        for i in SESSION['chats_with']:
+        for i in session['chats_with']:
             # Словрь с данными чата
             data_of_btn_user = {
                 'user_id': i,
             }
-
-            # Получаем сообщения и информацию о них ОТ ПОЛЬЗОВАТЕЛЯ, заносим их в переменную в словаре
-            cursor.execute(f"SELECT * FROM chats WHERE id_user_from = '{SESSION['user_id']}' AND id_user_to = '{i}'")
-            data_of_btn_user['message_from_me'] = cursor.fetchall()
-
-            # Получаем сообщения и информацию о них ПОЛЬЗОВАТЕЛЮ, заносим их в переменную в словаре
-            cursor.execute(f"SELECT * FROM chats WHERE id_user_from = '{i}' AND id_user_to = '{SESSION['user_id']}'")
-            data_of_btn_user['message_to_me'] = cursor.fetchall()
-
-            data_of_btn_user['message_all'] = [*data_of_btn_user['message_to_me'], *data_of_btn_user['message_from_me']]
-
-            # Добавляем всё
-            self.chats_buttons.append((data_of_btn_user, QtWidgets.QPushButton(f'{data_of_btn_user['user_id']}',
+            cursor.execute(
+                f"SELECT * FROM chats WHERE id_user_from = '{i}' AND id_user_to = '{session['user_id']}' OR id_user_from = '{session['user_id']}' AND id_user_to = '{i}' ORDER BY created_time")
+            data_of_btn_user['messages'] = cursor.fetchall()
+            # Добавляем данные о чате и кнопку этого чата
+            self.chats_data.append((data_of_btn_user, QtWidgets.QPushButton(f'{data_of_btn_user['user_id']}',
                                                                                parent=self.scrollAreaWidgetContents)))
 
             # Параметры кнопок
             # Позиция и размер
-            self.verticalLayout.addWidget(self.chats_buttons[-1][1])
+            self.verticalLayout.addWidget(self.chats_data[-1][1])
+            self.chats_data[-1][1].setStyleSheet("height: 70px;\n"
+                                                 "background-color: #E8E8E8;\n"
+                                                 "color: #000;\n"
+                                                 "border-radius: 21px;\n"
+                                                 "font-family: Inter;")
             # События кнопок
-            self.chats_buttons[-1][1].clicked.connect(self.chat_btn_click)
+            self.chats_data[-1][1].clicked.connect(self.chat_btn_click)
             # расстояние между кнопками
             self.pos_btn_y += 40
-
-        print(*self.chats_buttons)
 
     # Событие смены окна чата
     def chat_btn_click(self):
         self.verticalLayout_2.removeWidget(self)
+        for i in self.chat_message:
+            i.deleteLater()
         self.chat_message = []
-        for i in self.chats_buttons:
+        for i in self.chats_data:
             if self.sender() in i:
-                SESSION['active_chat'] = i[0]['user_id']
+                session['active_chat'] = i[0]['user_id']
+
                 # Изменение активного чата
-                for j in i[0]['message_all']:
-                    print(j)
-                    self.chat_message.append(QLabel(f'{j[3]}',parent=self.chat_area_contents))
+                for j in i[0]['messages']:
+                    self.active_chat_name.setText(f'{session['active_chat']}')
+                    self.chat_message.append(QLabel(f'{j[3]}', parent=self.chat_area_contents))
                     self.verticalLayout_2.addWidget(self.chat_message[-1])
-
-
-
-
-
 
     # Функция отправки сообщения
     def send_msg(self):
         # Добавление записи в таблицу с сообщениями
-        cursor.execute(f"INSERT INTO chats (id_user_from, id_user_to, msg, created_time) VALUES ('{SESSION['user_id']}', '{SESSION['active_chat']}', '{self.send_msg_input.text()}', '{datetime.datetime.now()}')")
+        cursor.execute(
+            f"INSERT INTO chats (id_user_from, id_user_to, msg, created_time) VALUES ('{session['user_id']}', '{session['active_chat']}', '{self.send_msg_input.text()}', '{datetime.datetime.now()}')")
         connection.commit()
+
 
 
 class Login(QMainWindow):
     def __init__(self):
-        global SESSION
+        global session
         super().__init__()
         uic.loadUi('uic/login.ui', self)
 
@@ -105,7 +104,6 @@ class Login(QMainWindow):
         self.reg_swap_btn_2.clicked.connect(self.show_autowindow)
 
     def show_autowindow(self):
-
         if self.show_autowindow_status:
             self.login_box.show()
             self.show_autowindow_status = not self.show_autowindow_status
@@ -114,15 +112,16 @@ class Login(QMainWindow):
             self.label_title.setText('Регистрация')
             self.login_box.hide()
             self.show_autowindow_status = not self.show_autowindow_status
+
     # Функция изменения данных сессии
     def get_session(self):
         cursor.execute(f"SELECT * FROM users WHERE name = '{self.user_login_log.text()}'")
         res = cursor.fetchall()
-        global SESSION
-        SESSION['user_id'] = res[0][0]
-        SESSION['user_name'] = res[0][1]
-        SESSION['chats_with'] = eval(res[0][3])
-        SESSION['status'] = True
+        global session
+        session['user_id'] = res[0][0]
+        session['user_name'] = res[0][1]
+        session['chats_with'] = eval(res[0][3])
+        session['status'] = True
 
     # Функция логина
     def login(self):
