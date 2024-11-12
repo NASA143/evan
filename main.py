@@ -14,6 +14,7 @@ session = {
     'chats_with': [],
     # Ативный чат
     'active_chat': '',
+    'last_sender': None,
 }
 # Подключение к БД
 connection = sqlite3.connect('db/main_database.db')
@@ -64,12 +65,13 @@ class Chats(QMainWindow):
 
     # Событие смены окна чата
     def chat_btn_click(self):
+        session['last_sender'] = self.sender()
         self.verticalLayout_2.removeWidget(self)
         for i in self.chat_message:
             i.deleteLater()
         self.chat_message = []
         for i in self.chats_data:
-            if self.sender() in i:
+            if session['last_sender'] in i:
                 session['active_chat'] = i[0]['user_id']
 
                 # Изменение активного чата
@@ -84,6 +86,8 @@ class Chats(QMainWindow):
         cursor.execute(
             f"INSERT INTO chats (id_user_from, id_user_to, msg, created_time) VALUES ('{session['user_id']}', '{session['active_chat']}', '{self.send_msg_input.text()}', '{datetime.datetime.now()}')")
         connection.commit()
+        self.chats_buttons_print()
+        self.chat_btn_click()
 
 
 
