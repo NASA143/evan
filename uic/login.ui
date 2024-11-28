@@ -301,6 +301,22 @@ color: #466BFF;</string>
           <string>Вход🠒</string>
          </property>
         </widget>
+        <widget class="QPushButton" name="pushButton">
+         <property name="geometry">
+          <rect>
+           <x>300</x>
+           <y>230</y>
+           <width>80</width>
+           <height>23</height>
+          </rect>
+         </property>
+         <property name="styleSheet">
+          <string notr="true">color:black;</string>
+         </property>
+         <property name="text">
+          <string>image</string>
+         </property>
+        </widget>
        </widget>
        <widget class="QGroupBox" name="login_box">
         <property name="enabled">
@@ -491,9 +507,9 @@ color: #466BFF;</string>
         </widget>
        </widget>
        <zorder>reg_box</zorder>
+       <zorder>login_box</zorder>
        <zorder>label_title</zorder>
        <zorder>groupBox_2</zorder>
-       <zorder>login_box</zorder>
       </widget>
      </item>
     </layout>

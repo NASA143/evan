@@ -11,7 +11,7 @@
    </rect>
   </property>
   <property name="sizePolicy">
-   <sizepolicy hsizetype="Expanding" vsizetype="Fixed">
+   <sizepolicy hsizetype="Expanding" vsizetype="Preferred">
     <horstretch>0</horstretch>
     <verstretch>0</verstretch>
    </sizepolicy>
@@ -66,10 +66,10 @@ padding: 10px;</string>
     <property name="frameShadow">
      <enum>QFrame::Shadow::Raised</enum>
     </property>
-    <widget class="QPushButton" name="pushButton">
+    <widget class="QPushButton" name="find_user_btn">
      <property name="geometry">
       <rect>
-       <x>20</x>
+       <x>340</x>
        <y>20</y>
        <width>41</width>
        <height>41</height>
@@ -82,12 +82,12 @@ padding: 10px;</string>
       <iconset theme="QIcon::ThemeIcon::SystemShutdown"/>
      </property>
     </widget>
-    <widget class="QLineEdit" name="lineEdit">
+    <widget class="QLineEdit" name="find_user_input">
      <property name="geometry">
       <rect>
        <x>70</x>
        <y>20</y>
-       <width>311</width>
+       <width>261</width>
        <height>41</height>
       </rect>
      </property>
@@ -95,6 +95,25 @@ padding: 10px;</string>
       <string notr="true">background-color: #fff;</string>
      </property>
     </widget>
+    <widget class="QPushButton" name="settings_btn">
+     <property name="geometry">
+      <rect>
+       <x>10</x>
+       <y>20</y>
+       <width>41</width>
+       <height>41</height>
+      </rect>
+     </property>
+     <property name="text">
+      <string/>
+     </property>
+     <property name="icon">
+      <iconset theme="QIcon::ThemeIcon::SystemShutdown"/>
+     </property>
+    </widget>
+    <zorder>find_user_input</zorder>
+    <zorder>find_user_btn</zorder>
+    <zorder>settings_btn</zorder>
    </widget>
    <widget class="QPushButton" name="send_msg_btn">
     <property name="geometry">
@@ -182,16 +201,35 @@ border-radius: 20px;</string>
     <property name="widgetResizable">
      <bool>true</bool>
     </property>
+    <property name="alignment">
+     <set>Qt::AlignmentFlag::AlignBottom|Qt::AlignmentFlag::AlignRight|Qt::AlignmentFlag::AlignTrailing</set>
+    </property>
     <widget class="QWidget" name="chat_area_contents">
      <property name="geometry">
       <rect>
-       <x>0</x>
-       <y>0</y>
-       <width>825</width>
-       <height>589</height>
+       <x>807</x>
+       <y>571</y>
+       <width>18</width>
+       <height>18</height>
       </rect>
      </property>
-     <layout class="QVBoxLayout" name="verticalLayout_2"/>
+     <property name="sizePolicy">
+      <sizepolicy hsizetype="Fixed" vsizetype="Fixed">
+       <horstretch>0</horstretch>
+       <verstretch>0</verstretch>
+      </sizepolicy>
+     </property>
+     <layout class="QVBoxLayout" name="verticalLayout_2">
+      <property name="spacing">
+       <number>25</number>
+      </property>
+      <property name="sizeConstraint">
+       <enum>QLayout::SizeConstraint::SetDefaultConstraint</enum>
+      </property>
+      <property name="bottomMargin">
+       <number>9</number>
+      </property>
+     </layout>
     </widget>
    </widget>
    <widget class="QLineEdit" name="send_msg_input">
@@ -249,7 +287,7 @@ border:none;
       </font>
      </property>
      <property name="text">
-      <string>Имя Пользователя</string>
+      <string/>
      </property>
     </widget>
    </widget>
