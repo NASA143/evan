@@ -1,10 +1,14 @@
 import sys
+
 from PyQt6 import uic, QtCore, QtWidgets, QtGui
-from PyQt6.QtWidgets import QApplication, QMainWindow, QPushButton, QLabel
+from PyQt6.QtCore import QSize, Qt
+from PyQt6.QtGui import QPixmap, QIcon
+from PyQt6.QtWidgets import QApplication, QMainWindow, QPushButton, QLabel, QFileDialog
 import sqlite3
 import datetime
+import threading
 
-from mutagen.flac import delete
+from markdown.treeprocessors import isString
 
 session = {
     'status': False,
@@ -15,6 +19,7 @@ session = {
     # Ативный чат
     'active_chat': '',
     'last_sender': None,
+    'user_image': '',
 }
 # Подключение к БД
 connection = sqlite3.connect('db/main_database.db')
@@ -26,73 +31,101 @@ class Chats(QMainWindow):
     def __init__(self):
         super().__init__()
         uic.loadUi('uic/chats.ui', self)
+        self.chats_data = []
+        self.chats_buttons = []
+        self.chat_message_now = []
 
-        self.chats_buttons_print()
-        self.chat_message = []
+        self.get_data()
+        self.print_chats_buttons()
 
         self.send_msg_btn.clicked.connect(self.send_msg)
 
-    def chats_buttons_print(self):
-        # Массив с кортежами формата (все данные чата, экземпляр кнопки чата)
+        self.find_user_btn.clicked.connect(self.find_user)
+
+        # self.run_every_n_seconds(5, self.example_task)
+
+    def find_user(self):
+        cursor.execute(f'''SELECT name FROM users WHERE name = "{self.find_user_input.text()}"''')
+        res = cursor.fetchall()
+        if res and res[0][0] not in session['chats_with']:
+            req = f'{session['chats_with'] + [res[0][0]]}'
+            print(req)
+            cursor.execute(f'''UPDATE users SET chats_with = "{req}" WHERE id = {session['user_id']}''')
+            connection.commit()
+            self.get_data()
+            self.print_chats_buttons()
+
+    def get_data(self):
         self.chats_data = []
-
-        # Добвление данных в массив с кнопками и информацией
-        self.pos_btn_y = 10
         for i in session['chats_with']:
-            # Словрь с данными чата
-            data_of_btn_user = {
-                'user_id': i,
-            }
             cursor.execute(
-                f"SELECT * FROM chats WHERE id_user_from = '{i}' AND id_user_to = '{session['user_id']}' OR id_user_from = '{session['user_id']}' AND id_user_to = '{i}' ORDER BY created_time")
-            data_of_btn_user['messages'] = cursor.fetchall()
-            # Добавляем данные о чате и кнопку этого чата
-            self.chats_data.append((data_of_btn_user, QtWidgets.QPushButton(f'{data_of_btn_user['user_id']}',
-                                                                               parent=self.scrollAreaWidgetContents)))
+                f'''SELECT * FROM chats WHERE id_user_from = "{session['user_id']}" AND id_user_to = "{i}" OR id_user_from = "{i}" AND id_user_to = "{session['user_id']}" ORDER BY created_time''')
+            self.chats_data.append((i, cursor.fetchall()))
 
-            # Параметры кнопок
-            # Позиция и размер
-            self.verticalLayout.addWidget(self.chats_data[-1][1])
-            self.chats_data[-1][1].setStyleSheet("height: 70px;\n"
-                                                 "background-color: #E8E8E8;\n"
-                                                 "color: #000;\n"
-                                                 "border-radius: 21px;\n"
-                                                 "font-family: Inter;")
-            # События кнопок
-            self.chats_data[-1][1].clicked.connect(self.chat_btn_click)
-            # расстояние между кнопками
-            self.pos_btn_y += 40
 
-    # Событие смены окна чата
-    def chat_btn_click(self):
-        session['last_sender'] = self.sender()
-        self.verticalLayout_2.removeWidget(self)
-        for i in self.chat_message:
+    def print_chats_buttons(self):
+        for i in self.chats_buttons:
+            print(i)
+            self.verticalLayout.removeWidget(i)
             i.deleteLater()
-        self.chat_message = []
         for i in self.chats_data:
-            if session['last_sender'] in i:
-                session['active_chat'] = i[0]['user_id']
+            self.chats_buttons.append(QPushButton(f'{i[0]}', parent=self.scrollAreaWidgetContents))
+            self.verticalLayout.addWidget(self.chats_buttons[-1])
+            self.chats_buttons[-1].clicked.connect(self.chat_btn_click)
+            self.chats_buttons[-1].setStyleSheet("background-color: #fff;\n"
+                                                 "border-radius: 5px;\n"
+                                                 "color: #000;\n"
+                                                 "padding: 10px 10px"
+                                                 )
+            cursor.execute(f"SELECT image FROM users WHERE id = '{i[0]}'")
 
-                # Изменение активного чата
-                for j in i[0]['messages']:
-                    self.active_chat_name.setText(f'{session['active_chat']}')
-                    self.chat_message.append(QLabel(f'{j[3]}', parent=self.chat_area_contents))
-                    self.verticalLayout_2.addWidget(self.chat_message[-1])
+            print(cursor.fetchall()[0][0].split('/')[-1])
+            self.chats_buttons[-1].setIcon(QIcon(cursor.fetchall()[0][0].split('/')[-1]))
+            self.chats_buttons[-1].iconSize = QSize(50, 60)
 
-    # Функция отправки сообщения
+
+
+
+    def chat_btn_click(self):
+        if session['last_sender'] != self.sender():
+            session['last_sender'] = self.sender()
+        self.active_chat_name.setText(self.sender().text())
+        for i in self.chat_message_now:
+            self.verticalLayout_2.removeWidget(i)
+            i.deleteLater()
+        self.chat_message_now = []
+        for i in self.chats_data:
+            if session['last_sender'].text() in str(i[0]):
+                session['active_chat'] = i[0]
+                for k in i[1]:
+                    self.chat_message_now.append(QLabel(f'{k[3]}', parent=self.chat_area_contents))
+                    self.chat_message_now[-1].setStyleSheet("width: 400px;\n"
+                                                            "background-color: #fff;\n"
+                                                            "border-radius: 20px;\n"
+                                                            "color: #000;\n"
+                                                            "padding: 10px 10px")
+                    self.verticalLayout_2.addWidget(self.chat_message_now[-1])
+
+
     def send_msg(self):
-        # Добавление записи в таблицу с сообщениями
         cursor.execute(
             f"INSERT INTO chats (id_user_from, id_user_to, msg, created_time) VALUES ('{session['user_id']}', '{session['active_chat']}', '{self.send_msg_input.text()}', '{datetime.datetime.now()}')")
         connection.commit()
-        self.chats_buttons_print()
+        self.get_data()
         self.chat_btn_click()
 
+    def run_every_n_seconds(self, seconds, action, *args):
+        threading.Timer(seconds, self.run_every_n_seconds, [seconds, action] + list(args)).start()
+        action(*args)
+
+    def example_task(self):
+        self.get_data()
+        self.chat_btn_click()
 
 
 class Login(QMainWindow):
     def __init__(self):
+        self.ablob = None
         global session
         super().__init__()
         uic.loadUi('uic/login.ui', self)
@@ -106,6 +139,11 @@ class Login(QMainWindow):
 
         self.reg_swap_btn.clicked.connect(self.show_autowindow)
         self.reg_swap_btn_2.clicked.connect(self.show_autowindow)
+
+        self.pushButton.clicked.connect(self.open_file_user)
+
+    def open_file_user(self):
+        self.user_image = QFileDialog.getOpenFileName(self, 'Выбрать картинку', 'Картинка (*.jpg);;Картинка (*.png);;Все файлы (*)')[0]
 
     def show_autowindow(self):
         if self.show_autowindow_status:
@@ -125,6 +163,7 @@ class Login(QMainWindow):
         session['user_id'] = res[0][0]
         session['user_name'] = res[0][1]
         session['chats_with'] = eval(res[0][3])
+        session['user_image'] = res[0][4]
         session['status'] = True
 
     # Функция логина
@@ -158,7 +197,7 @@ class Login(QMainWindow):
             if not res:
                 # Запрос на добавление пользователя
                 cursor.execute(
-                    f"INSERT INTO users (name, password, chats_with) VALUES ('{self.user_login_reg.text()}', '{self.user_password_reg.text()}', '[]')")
+                    f"""INSERT INTO users (name, password, chats_with, image) VALUES ('{self.user_login_reg.text()}', '{self.user_password_reg.text()}', '[]', '{self.user_image}')""")
                 connection.commit()
 
 
