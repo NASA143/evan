@@ -20,6 +20,7 @@ session = {
     'active_chat': '',
     'last_sender': None,
     'user_image': '',
+    'last_sender_id': '',
 }
 # Подключение к БД
 connection = sqlite3.connect('db/main_database.db')
@@ -45,15 +46,14 @@ class Chats(QMainWindow):
         # self.run_every_n_seconds(5, self.example_task)
 
     def find_user(self):
-        cursor.execute(f'''SELECT name FROM users WHERE name = "{self.find_user_input.text()}"''')
+        cursor.execute(f'''SELECT id FROM users WHERE name = "{self.find_user_input.text()}"''')
         res = cursor.fetchall()
         if res and res[0][0] not in session['chats_with']:
-            req = f'{session['chats_with'] + [res[0][0]]}'
-            print(req)
-            cursor.execute(f'''UPDATE users SET chats_with = "{req}" WHERE id = {session['user_id']}''')
+            session['chats_with'].append(res[0][0])
+            cursor.execute(f'''UPDATE users SET chats_with = "{session['chats_with']}" WHERE id = {session['user_id']}''')
             connection.commit()
-            self.get_data()
-            self.print_chats_buttons()
+        self.get_data()
+        self.print_chats_buttons()
 
     def get_data(self):
         self.chats_data = []
@@ -63,40 +63,50 @@ class Chats(QMainWindow):
             self.chats_data.append((i, cursor.fetchall()))
 
 
+
+
     def print_chats_buttons(self):
         for i in self.chats_buttons:
-            print(i)
             self.verticalLayout.removeWidget(i)
             i.deleteLater()
+        self.chats_buttons = []
+        req = ', '.join(map(str, session['chats_with']))
+        cursor.execute(f'''SELECT name FROM users WHERE id IN ({req})''')
+
         for i in self.chats_data:
-            self.chats_buttons.append(QPushButton(f'{i[0]}', parent=self.scrollAreaWidgetContents))
+            cursor.execute(f'''SELECT name FROM users WHERE id = {i[0]}''')
+            self.chats_buttons.append(QPushButton(f'{cursor.fetchall()[0][0]}', parent=self.scrollAreaWidgetContents))
             self.verticalLayout.addWidget(self.chats_buttons[-1])
             self.chats_buttons[-1].clicked.connect(self.chat_btn_click)
             self.chats_buttons[-1].setStyleSheet("background-color: #fff;\n"
                                                  "border-radius: 5px;\n"
                                                  "color: #000;\n"
-                                                 "padding: 10px 10px"
+                                                 "padding: 2px 2px;\n"
+                                                 "text-align: left;"
                                                  )
             cursor.execute(f"SELECT image FROM users WHERE id = '{i[0]}'")
-
-            print(cursor.fetchall()[0][0].split('/')[-1])
-            self.chats_buttons[-1].setIcon(QIcon(cursor.fetchall()[0][0].split('/')[-1]))
-            self.chats_buttons[-1].iconSize = QSize(50, 60)
+            self.chats_buttons[-1].setIcon(QIcon('content/' + cursor.fetchall()[0][0].split('/')[-1]))
+            self.chats_buttons[-1].setIconSize(QSize(60, 60))
 
 
 
 
     def chat_btn_click(self):
-        if session['last_sender'] != self.sender():
-            session['last_sender'] = self.sender()
-        self.active_chat_name.setText(self.sender().text())
+        if self.sender().text():
+            if session['last_sender_id'] != self.sender().text():
+                cursor.execute(f'''SELECT id FROM users WHERE name = "{self.sender().text()}"''')
+                self.chat_click_id = cursor.fetchall()[0][0]
+                session['active_chat'] = self.chat_click_id
+            if session['last_sender'] != self.sender():
+                session['last_sender'] = self.sender()
+
+        self.active_chat_name.setText(session['last_sender'].text())
         for i in self.chat_message_now:
             self.verticalLayout_2.removeWidget(i)
             i.deleteLater()
         self.chat_message_now = []
         for i in self.chats_data:
-            if session['last_sender'].text() in str(i[0]):
-                session['active_chat'] = i[0]
+            if self.chat_click_id == i[0]:
                 for k in i[1]:
                     self.chat_message_now.append(QLabel(f'{k[3]}', parent=self.chat_area_contents))
                     self.chat_message_now[-1].setStyleSheet("width: 400px;\n"
@@ -108,9 +118,11 @@ class Chats(QMainWindow):
 
 
     def send_msg(self):
+
         cursor.execute(
             f"INSERT INTO chats (id_user_from, id_user_to, msg, created_time) VALUES ('{session['user_id']}', '{session['active_chat']}', '{self.send_msg_input.text()}', '{datetime.datetime.now()}')")
         connection.commit()
+        self.send_msg_input.setText('')
         self.get_data()
         self.chat_btn_click()
 
@@ -141,9 +153,11 @@ class Login(QMainWindow):
         self.reg_swap_btn_2.clicked.connect(self.show_autowindow)
 
         self.pushButton.clicked.connect(self.open_file_user)
+        self.user_image = None
 
     def open_file_user(self):
         self.user_image = QFileDialog.getOpenFileName(self, 'Выбрать картинку', 'Картинка (*.jpg);;Картинка (*.png);;Все файлы (*)')[0]
+        self.user_image_link.setText(self.user_image)
 
     def show_autowindow(self):
         if self.show_autowindow_status:
@@ -182,9 +196,11 @@ class Login(QMainWindow):
                 self.hide()
 
             else:
-                print('Не верный пароль')
+                self.error_label.setStyleSheet("color: #f00;\n")
+                self.error_label.setText('Неверный пароль')
         else:
-            print('Не верный логин')
+            self.error_label.setStyleSheet("color: #f00;\n")
+            self.error_label.setText('Неверный логин')
 
     # Функция регистрации
     def register(self):
@@ -195,10 +211,20 @@ class Login(QMainWindow):
             res = cursor.fetchall()
             # Если пользователя с таким именем нет
             if not res:
+                if self.user_image == '':
+                    self.user_image = '/home/ivi/Рабочий стол/evan/content/user_image_default.png'
                 # Запрос на добавление пользователя
                 cursor.execute(
                     f"""INSERT INTO users (name, password, chats_with, image) VALUES ('{self.user_login_reg.text()}', '{self.user_password_reg.text()}', '[]', '{self.user_image}')""")
                 connection.commit()
+                self.label_error_reg.setStyleSheet("color: #0f0;\n")
+                self.label_error_reg.setText('Успешно')
+            else:
+                self.label_error_reg.setStyleSheet("color: #f00;\n")
+                self.label_error_reg.setText('Логин занят')
+        else:
+            self.label_error_reg.setStyleSheet("color: #f00;\n")
+            self.label_error_reg.setText('Пароли не совпадают')
 
 
 if __name__ == '__main__':
