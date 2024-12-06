@@ -1,13 +1,13 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <ui version="4.0">
- <class>MainWindow</class>
- <widget class="QMainWindow" name="MainWindow">
+ <class>Chats</class>
+ <widget class="QMainWindow" name="Chats">
   <property name="geometry">
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>1247</width>
-    <height>710</height>
+    <width>1470</width>
+    <height>878</height>
    </rect>
   </property>
   <property name="sizePolicy">
@@ -28,7 +28,7 @@
     <property name="geometry">
      <rect>
       <x>0</x>
-      <y>620</y>
+      <y>790</y>
       <width>401</width>
       <height>91</height>
      </rect>
@@ -69,17 +69,20 @@ padding: 10px;</string>
     <widget class="QPushButton" name="find_user_btn">
      <property name="geometry">
       <rect>
-       <x>340</x>
+       <x>350</x>
        <y>20</y>
        <width>41</width>
        <height>41</height>
       </rect>
      </property>
+     <property name="styleSheet">
+      <string notr="true">background-color:#466BFF;
+border:none;
+border-radius: 10px;
+border: 2px solid #fff</string>
+     </property>
      <property name="text">
       <string/>
-     </property>
-     <property name="icon">
-      <iconset theme="QIcon::ThemeIcon::SystemShutdown"/>
      </property>
     </widget>
     <widget class="QLineEdit" name="find_user_input">
@@ -87,13 +90,19 @@ padding: 10px;</string>
       <rect>
        <x>70</x>
        <y>20</y>
-       <width>261</width>
+       <width>321</width>
        <height>41</height>
       </rect>
      </property>
      <property name="styleSheet">
       <string notr="true">background-color: #fff;
-color: #000;</string>
+color: #000;
+padding-right: 60px;
+padding:5px;
+border-radius: 15px;</string>
+     </property>
+     <property name="placeholderText">
+      <string extracomment="Имя пользователя">Имя пользователя</string>
      </property>
     </widget>
     <widget class="QPushButton" name="settings_btn">
@@ -105,11 +114,14 @@ color: #000;</string>
        <height>41</height>
       </rect>
      </property>
+     <property name="styleSheet">
+      <string notr="true">background-color:#466BFF;
+border:2px solid #fff;
+border-radius: 10px;
+border: 2px solid #fff</string>
+     </property>
      <property name="text">
       <string/>
-     </property>
-     <property name="icon">
-      <iconset theme="QIcon::ThemeIcon::SystemShutdown"/>
      </property>
     </widget>
     <zorder>find_user_input</zorder>
@@ -119,8 +131,8 @@ color: #000;</string>
    <widget class="QPushButton" name="send_msg_btn">
     <property name="geometry">
      <rect>
-      <x>1190</x>
-      <y>660</y>
+      <x>1400</x>
+      <y>830</y>
       <width>40</width>
       <height>40</height>
      </rect>
@@ -138,9 +150,6 @@ border-radius: 20px;</string>
     <property name="text">
      <string/>
     </property>
-    <property name="icon">
-     <iconset theme="QIcon::ThemeIcon::GoUp"/>
-    </property>
    </widget>
    <widget class="QScrollArea" name="scrollArea">
     <property name="geometry">
@@ -148,7 +157,7 @@ border-radius: 20px;</string>
       <x>0</x>
       <y>80</y>
       <width>401</width>
-      <height>541</height>
+      <height>711</height>
      </rect>
     </property>
     <property name="sizePolicy">
@@ -166,13 +175,13 @@ border-radius: 20px;</string>
     <property name="widgetResizable">
      <bool>true</bool>
     </property>
-    <widget class="QWidget" name="scrollAreaWidgetContents">
+    <widget class="QWidget" name="buttonsScrollArea">
      <property name="geometry">
       <rect>
        <x>0</x>
        <y>0</y>
        <width>385</width>
-       <height>539</height>
+       <height>709</height>
       </rect>
      </property>
      <layout class="QVBoxLayout" name="verticalLayout"/>
@@ -183,8 +192,8 @@ border-radius: 20px;</string>
      <rect>
       <x>400</x>
       <y>60</y>
-      <width>841</width>
-      <height>591</height>
+      <width>1071</width>
+      <height>761</height>
      </rect>
     </property>
     <property name="sizePolicy">
@@ -208,8 +217,8 @@ border-radius: 20px;</string>
     <widget class="QWidget" name="chat_area_contents">
      <property name="geometry">
       <rect>
-       <x>807</x>
-       <y>571</y>
+       <x>1037</x>
+       <y>741</y>
        <width>18</width>
        <height>18</height>
       </rect>
@@ -237,8 +246,8 @@ border-radius: 20px;</string>
     <property name="geometry">
      <rect>
       <x>400</x>
-      <y>650</y>
-      <width>841</width>
+      <y>820</y>
+      <width>1071</width>
       <height>60</height>
      </rect>
     </property>
@@ -263,7 +272,7 @@ border:none;
      <rect>
       <x>399</x>
       <y>0</y>
-      <width>841</width>
+      <width>1071</width>
       <height>61</height>
      </rect>
     </property>
@@ -278,7 +287,7 @@ border:none;
       <rect>
        <x>20</x>
        <y>10</y>
-       <width>261</width>
+       <width>431</width>
        <height>41</height>
       </rect>
      </property>
@@ -286,6 +295,24 @@ border:none;
       <font>
        <pointsize>20</pointsize>
       </font>
+     </property>
+     <property name="text">
+      <string/>
+     </property>
+    </widget>
+    <widget class="QPushButton" name="refresh_btn">
+     <property name="geometry">
+      <rect>
+       <x>1000</x>
+       <y>10</y>
+       <width>41</width>
+       <height>41</height>
+      </rect>
+     </property>
+     <property name="styleSheet">
+      <string notr="true">background-color:#466BFF;
+border:1px solid #fff;
+border-radius: 20px;</string>
      </property>
      <property name="text">
       <string/>

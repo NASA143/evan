@@ -452,7 +452,7 @@ border:none;</string>
                <x>0</x>
                <y>20</y>
                <width>251</width>
-               <height>21</height>
+               <height>31</height>
               </rect>
              </property>
              <property name="styleSheet">
@@ -497,20 +497,14 @@ color: #000;</string>
               <string>Пароль</string>
              </property>
             </widget>
-            <widget class="KPasswordLineEdit" name="user_password_log">
+            <widget class="QLineEdit" name="user_password_log">
              <property name="geometry">
               <rect>
                <x>0</x>
-               <y>9</y>
+               <y>21</y>
                <width>251</width>
-               <height>41</height>
+               <height>31</height>
               </rect>
-             </property>
-             <property name="sizePolicy">
-              <sizepolicy hsizetype="Preferred" vsizetype="Expanding">
-               <horstretch>0</horstretch>
-               <verstretch>0</verstretch>
-              </sizepolicy>
              </property>
              <property name="styleSheet">
               <string notr="true">background-color:white;
@@ -604,13 +598,6 @@ color: #466BFF;</string>
    </widget>
   </widget>
  </widget>
- <customwidgets>
-  <customwidget>
-   <class>KPasswordLineEdit</class>
-   <extends>QWidget</extends>
-   <header>kpasswordlineedit.h</header>
-  </customwidget>
- </customwidgets>
  <resources/>
  <connections/>
 </ui>
