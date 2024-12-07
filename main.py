@@ -486,7 +486,7 @@ class Ui_Autorization(object):
         self.reg_swap_btn.setText(_translate("Autorization", "Вход🠒"))
         self.pushButton.setText(_translate("Autorization", "Выбрать файл"))
         self.label_6.setText(_translate("Autorization", "Выбирите изображение профиля"))
-        self.user_image_link.setText(_translate("Autorization", "f"))
+        self.user_image_link.setText(_translate("Autorization", ""))
         self.label_3.setText(_translate("Autorization", "Логин"))
         self.label_4.setText(_translate("Autorization", "Пароль"))
         self.btn_log.setText(_translate("Autorization", "Войти"))
