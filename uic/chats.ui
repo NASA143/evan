@@ -35,7 +35,7 @@
     </property>
     <property name="font">
      <font>
-      <family>Monospace</family>
+      <family>Inter</family>
       <pointsize>50</pointsize>
      </font>
     </property>
@@ -313,6 +313,25 @@ border:none;
       <string notr="true">background-color:#466BFF;
 border:1px solid #fff;
 border-radius: 20px;</string>
+     </property>
+     <property name="text">
+      <string/>
+     </property>
+    </widget>
+    <widget class="QPushButton" name="export_btn">
+     <property name="geometry">
+      <rect>
+       <x>950</x>
+       <y>10</y>
+       <width>41</width>
+       <height>41</height>
+      </rect>
+     </property>
+     <property name="styleSheet">
+      <string notr="true">background-color:#466BFF;
+border:none;
+border-radius: 10px;
+border: 2px solid #fff</string>
      </property>
      <property name="text">
       <string/>
